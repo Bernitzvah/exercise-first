@@ -24,7 +24,7 @@ export class TableComponent implements OnDestroy{
   @Input()
   public canRate: boolean;
 
-  displayedColumns: string[] = ['name', 'description', 'date', 'stars'];
+  displayedColumns: string[] = ['icon', 'name', 'description', 'date', 'stars'];
 
   private direction: boolean;
 
