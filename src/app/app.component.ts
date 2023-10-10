@@ -126,7 +126,7 @@ export class AppComponent implements OnInit, OnDestroy {
       return updatedProject;
     });
     const sortedList = updatedList.sort((a, b) => b.stars - a.stars);
-    this.top3Projects = [...sortedList.slice(0, 3)];
+    this.top3Projects = sortedList.slice(0, 3);
     return this.top3Projects;
   }
 
@@ -150,14 +150,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.list.push(project)
     this.projectStore.update({ project: [...this.list] });
     this.isModalVisible = false;
+    this.projectForm = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required])
+    });
   }
 
   private formatDate(date: Date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-
     return `${year}-${month}-${day}`;
+  }
+
+  public deleteAll(): void {
+    this.ratingStore.reset();
+    this.projectStore.reset();
+    location.reload();
   }
 
 }
