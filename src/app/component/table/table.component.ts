@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { ProjectModel, RatingModel } from 'src/app/models';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ProjectQuery, RatingQuery } from 'src/app/queries';
 import { Subscription } from 'rxjs';
-import { RatingStore } from 'src/app/stores';
+import { ProjectStore, RatingStore } from 'src/app/stores';
 
 @Component({
   selector: 'app-table',
@@ -32,8 +32,10 @@ export class TableComponent implements OnDestroy{
 
   constructor(
     private projectQuery: ProjectQuery,
+    private projectStore: ProjectStore,
     private ratingStore: RatingStore,
-    private ratingQuery: RatingQuery
+    private ratingQuery: RatingQuery,
+    private cd: ChangeDetectorRef
   ) {
     this.direction = false;
     this.dataSource = [];
@@ -41,6 +43,7 @@ export class TableComponent implements OnDestroy{
     this.canRate = false;
 
     this.projectSubscription = this.projectQuery.project$.subscribe((value: ProjectModel[]) => {
+      console.log('wwwwwwwwwwwwwwwww', value)
       if (this.canRate) {
         this.dataSource = value;
       } else {
@@ -69,6 +72,7 @@ export class TableComponent implements OnDestroy{
         break
       }
       case 4: {
+        console.log(this.dataSource)
         this.dataSource = this.dataSource.map(x => ({ item: x, value: x.stars })).sort((a, b) => (a.value > b.value) && this.direction ? 1 : -1).map(x => x.item)
         break
       }
@@ -92,16 +96,23 @@ export class TableComponent implements OnDestroy{
       let rate = this.ratingQuery.getRating() ? [...this.ratingQuery.getRating()] : [];
       if (rate.find(x => x.id == id)) {
         rate = rate.filter(x => x.id != id);
+        const index = this.dataSource.findIndex(x => x.id == id);
+        this.dataSource[index] = { ...this.dataSource[index], stars: this.dataSource[index].stars - 1}
       } else {
         rate.push({id: id, rating: 1});
+        const index = this.dataSource.findIndex(x => x.id == id);
+        this.dataSource[index] = { ...this.dataSource[index], stars: this.dataSource[index].stars + 1}
       }
       this.ratingStore.update({rating: rate});
+      this.projectStore.update({project: this.dataSource});
+      this.cd.detectChanges();
+
+      console.log(this.dataSource)
     }
   }
 
-  public getStars(initialStars: number, id: number): number {
-    const count = this.ratingQuery.getRating() ? this.ratingQuery.getRating().filter(item => item.id === id).length : 0;
-    return this.canRate? initialStars + count : initialStars;
+  public getStars(id: number): number | undefined {
+    return this.dataSource.find(x => x.id == id)?.stars;
   }
 
   public isRated(id: number): boolean {

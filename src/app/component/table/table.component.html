@@ -51,7 +51,7 @@
                 <img *ngIf="!isRated(element.id)" src="../../../assets/icons/star.png" (click)="rate(element.id)">
                 <img *ngIf="isRated(element.id)" src="../../../assets/icons/rated-star.png" (click)="rate(element.id)">
                 <div>
-                    <div class="text-dark-sm">{{getStars(element.stars, element.id)}}</div>
+                    <div class="text-dark-sm">{{getStars(element.id)}}</div>
                 </div>
             </div>
         </td>
