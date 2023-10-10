@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           id: 2,
           name: "Rocket project",
-          description: "1Dolor sit amet",
+          description: "Dolor sit amet",
           date: "2020-10-12",
           stars: 120
         },
