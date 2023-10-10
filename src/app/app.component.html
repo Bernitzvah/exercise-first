@@ -1,0 +1,27 @@
+<div class="container">
+
+  <div *ngIf="isModalVisible" class="add-project">
+    <form class="form" [formGroup]="projectForm" (ngSubmit)="addProject()">
+      <input class="field field-input-data" placeholder="Inserisci titolo" formControlName="title" />
+      <textarea class="field field-input-data description" placeholder="Inserisci Descrizione"
+        formControlName="description"></textarea>
+      <div class="container-button">
+        <button mat-raised-button color="primary" type="submit" [disabled]="projectForm.invalid">Aggiungi</button>
+        <button mat-raised-button color="basic" (click)="closeAddProject()">Chiudi</button>
+      </div>
+    </form>
+  </div>
+
+  <button mat-raised-button color="primary" class="new-project" (click)="addNewProject()">Nuovo progetto</button>
+  <input class="field field-input-data search" placeholder="Ricerca per nome" (input)="onInputChange($event)" />
+
+  <mat-tab-group>
+    <mat-tab label="Main" class="main-table">
+      <app-table [canRate]="true" [dataSource]="sortedList" [rating]="ratedList"></app-table>
+    </mat-tab>
+
+    <mat-tab label="Most rated">
+      <app-table [canRate]="false" [dataSource]="top3Projects"></app-table>
+    </mat-tab>
+  </mat-tab-group>
+</div>

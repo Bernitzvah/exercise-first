@@ -1,0 +1,53 @@
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="setDirection($event)">
+    <ng-container matColumnDef="name">
+        <th mat-header-cell class="text-dark" *matHeaderCellDef mat-sort-header (click)="sortColumn(1)"> Name </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="col">
+                <div class="icon text-dark-sm">{{giveLetterName(element.name)}}</div>
+                <div>
+                    <div class="text-dark-m">{{element.name}}</div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+        <th mat-header-cell class="text-dark" *matHeaderCellDef mat-sort-header (click)="sortColumn(2)"> Description
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="col">
+                <div>
+                    <div class="text-dark-sm">{{element.description}}</div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <th mat-header-cell class="text-dark" class="text-dark" *matHeaderCellDef mat-sort-header
+            (click)="sortColumn(3)"> Date </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="col">
+                <div>
+                    <div class="text-dark-sm">{{element.date}}</div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="stars">
+        <th mat-header-cell class="text-dark" *matHeaderCellDef mat-sort-header (click)="sortColumn(4)"> Stars </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+            <div class="col">
+                <img *ngIf="!isRated(element.id)" src="../../../assets/icons/star.png" (click)="rate(element.id)">
+                <img *ngIf="isRated(element.id)" src="../../../assets/icons/rated-star.png" (click)="rate(element.id)">
+                <div>
+                    <div class="text-dark-sm">{{getStars(element.stars, element.id)}}</div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
