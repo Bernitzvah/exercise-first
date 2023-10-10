@@ -1,6 +1,6 @@
 ##GENERAL INFO
 
-- La schermata principale contiene un bottone che permette di  inserire un nuovo progettop con titolo e corpo obbligatori
+- La schermata principale contiene un bottone che permette di  inserire un nuovo progetto con titolo e corpo obbligatori
 - un campo di ricerca per nome del progetto
 - un bottone per resettare lo store interno (solo per il mockup)
 - due tab in cui nel primo sono presenti tutti i progetti ordinabili per colonna mentre nel secondo i primi 3 progetti col rating più alto
