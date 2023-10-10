@@ -41,7 +41,12 @@ export class TableComponent implements OnDestroy{
     this.canRate = false;
 
     this.projectSubscription = this.projectQuery.project$.subscribe((value: ProjectModel[]) => {
-      this.dataSource = value;
+      if (this.canRate) {
+        this.dataSource = value;
+      } else {
+        const sortedList = value.sort((a, b) => b.stars - a.stars);
+        this.dataSource = sortedList.slice(0, 3);
+      }
     });
   }
   
