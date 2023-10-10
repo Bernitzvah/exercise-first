@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           id: 1,
           name: "Awesome project",
-          description: "3Lorem ipsum dolor sit amet",
+          description: "Lorem ipsum dolor sit amet",
           date: "2020-10-11",
           stars: 100
         },
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           id: 3,
           name: "Bull project",
-          description: "3Ipsum lorem sit",
+          description: "Ipsum lorem sit",
           date: "2020-09-10",
           stars: 80
         },
