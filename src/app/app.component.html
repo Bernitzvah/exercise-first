@@ -10,11 +10,11 @@
         <button mat-raised-button color="basic" (click)="closeAddProject()">Chiudi</button>
       </div>
     </form>
-  </div>
+  </div> 
 
   <button mat-raised-button color="primary" class="new-project" (click)="addNewProject()">Nuovo progetto</button>
+  <button mat-raised-button color="accent" class="new-project" (click)="deleteAll()">Elimina tutto</button>
   <input class="field field-input-data search" placeholder="Ricerca per nome" (input)="onInputChange($event)" />
-  <button mat-raised-button color="primary" class="new-project" (click)="deleteAll()">Elimina tutto</button>
 
   <mat-tab-group>
     <mat-tab label="Main" class="main-table">

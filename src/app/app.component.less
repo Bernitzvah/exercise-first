@@ -2,8 +2,7 @@
     position: relative;
     padding: 50px;
 
-    .search {
-        margin-left: 30px;
+    .new-project, .search {
         margin-right: 30px;
     }
 
@@ -32,7 +31,7 @@
 
             .container-button {
                 display: flex;
-                
+
                 button {
                     margin-right: 70px;
                 }
@@ -42,5 +41,39 @@
 
     .mat-tab-group {
         margin-top: 35px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+
+    .container {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+
+        .search {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        input,
+        button {
+            align-self: self-start;
+            margin-top: 30px;
+        }
+
+        .add-project {
+            width: 80%;
+            height: 400px;
+            left: 10%;
+            top: 10%;
+            transform: translate(0, +50%);
+
+        }
     }
 }
