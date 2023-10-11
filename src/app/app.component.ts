@@ -90,7 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.ratingSubscription = this.ratingQuery.rating$.subscribe((value: RatingModel[]) => {
-      console.log('main component', value);
       if (value) {
         this.ratedList = [...value];
       }

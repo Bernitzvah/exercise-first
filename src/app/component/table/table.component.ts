@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProjectModel, RatingModel } from 'src/app/models';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ProjectQuery, RatingQuery } from 'src/app/queries';
@@ -11,7 +11,7 @@ import { ProjectStore, RatingStore } from 'src/app/stores';
   styleUrls: ['./table.component.less']
 })
 
-export class TableComponent implements OnDestroy{
+export class TableComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -41,18 +41,20 @@ export class TableComponent implements OnDestroy{
     this.dataSource = [];
     this.rating = [];
     this.canRate = false;
+  }
 
+  ngOnInit(): void {
     this.projectSubscription = this.projectQuery.project$.subscribe((value: ProjectModel[]) => {
-      console.log('wwwwwwwwwwwwwwwww', value)
       if (this.canRate) {
         this.dataSource = value;
       } else {
         const sortedList = value.sort((a, b) => b.stars - a.stars);
         this.dataSource = sortedList.slice(0, 3);
+        console.log(this.dataSource);
       }
     });
   }
-  
+
   ngOnDestroy(): void {
     this.projectSubscription?.unsubscribe();
   }
@@ -72,7 +74,6 @@ export class TableComponent implements OnDestroy{
         break
       }
       case 4: {
-        console.log(this.dataSource)
         this.dataSource = this.dataSource.map(x => ({ item: x, value: x.stars })).sort((a, b) => (a.value > b.value) && this.direction ? 1 : -1).map(x => x.item)
         break
       }
@@ -92,22 +93,20 @@ export class TableComponent implements OnDestroy{
   }
 
   public rate(id: number): void {
-    if(this.canRate) {
+    if (this.canRate) {
       let rate = this.ratingQuery.getRating() ? [...this.ratingQuery.getRating()] : [];
       if (rate.find(x => x.id == id)) {
         rate = rate.filter(x => x.id != id);
         const index = this.dataSource.findIndex(x => x.id == id);
-        this.dataSource[index] = { ...this.dataSource[index], stars: this.dataSource[index].stars - 1}
+        this.dataSource[index] = { ...this.dataSource[index], stars: this.dataSource[index].stars - 1 }
       } else {
-        rate.push({id: id, rating: 1});
+        rate.push({ id: id, rating: 1 });
         const index = this.dataSource.findIndex(x => x.id == id);
-        this.dataSource[index] = { ...this.dataSource[index], stars: this.dataSource[index].stars + 1}
+        this.dataSource[index] = { ...this.dataSource[index], stars: this.dataSource[index].stars + 1 }
       }
-      this.ratingStore.update({rating: rate});
-      this.projectStore.update({project: this.dataSource});
+      this.ratingStore.update({ rating: rate });
+      this.projectStore.update({ project: this.dataSource });
       this.cd.detectChanges();
-
-      console.log(this.dataSource)
     }
   }
 
